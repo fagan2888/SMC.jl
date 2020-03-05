@@ -1,4 +1,4 @@
-using DSGE, ModelConstructors, HDF5, Random, JLD2, FileIO, Plots
+using DSGE, ModelConstructors, HDF5, Random, JLD2, FileIO, Plots, SMC, Test
 
 path = dirname(@__FILE__)
 writing_output = false
@@ -27,9 +27,9 @@ m <= Setting(:smc_iteration, 0)
 m <= Setting(:use_chand_recursion, true)
 
 @everywhere Random.seed!(42)
-#=
+
 println("Estimating AnSchorfheide Model... (approx. 2 minutes)")
-DSGE.smc2(m, data, verbose = :none) # us.txt gives equiv to periods 95:174 in our current dataset
+DSGE.smc2(m, data, run_csminwel = false, verbose = :none) # us.txt gives equiv to periods 95:174 in our current dataset
 println("Estimation done!")
 
 test_file = load(rawpath(m, "estimate", "smc_cloud.jld2"))
@@ -82,7 +82,7 @@ end
     @test @test_matrix_approx_eq test_w saved_w
     @test @test_matrix_approx_eq test_W saved_W
 end
-=#
+
 ####################################################################
 # Bridging Test
 ####################################################################
@@ -115,7 +115,7 @@ m <= Setting(:use_chand_recursion, true)
 m_old = deepcopy(m)
 m_old <= Setting(:n_particles, 600, true, "npart", "") #1000)
 m_old <= Setting(:data_vintage, "000000")
-#DSGE.smc2(m_old, data[:,1:Int(floor(end/2))], verbose = :low)
+DSGE.smc2(m_old, data[:,1:Int(floor(end/2))], run_csminwel = false, verbose = :low)
 
 m_new = deepcopy(m)
 
@@ -130,7 +130,9 @@ loadpath = rawpath(m_old, "estimate", "smc_cloud.jld2")
 loadpath = replace(loadpath, "vint=[0-9]{6}" => "vint=" * old_vint)
 old_cloud = ParticleCloud(load(loadpath, "cloud"), map(x -> x.key, m.parameters))
 m_new <= Setting(:n_particles, 600, true, "npart", "")
-DSGE.smc2(m_new, data, old_data = data[:,1:Int(floor(end/2))], old_cloud = old_cloud, save_intermediate = true, intermediate_stage_increment = 1)
+DSGE.smc2(m_new, data,
+          old_data = data[:,1:Int(floor(end/2))], old_cloud = old_cloud,
+          run_csminwel = false)
 
 #=loadpath = rawpath(m_new, "estimate", "smc_cloud.jld2")
 loadpath = replace(loadpath, "vint=[0-9]{6}" => "vint=200218")
