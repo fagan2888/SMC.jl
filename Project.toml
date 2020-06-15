@@ -35,7 +35,6 @@ ModelConstructors = "^0.1.4"
 PDMats = "^0.9.10"
 Roots = "0.7, 0.8"
 StatsBase = "0.29, 0.30, 0.31, 0.32.0"
-
 julia = "0.7, 1.0, 1.1"
 
 [extras]

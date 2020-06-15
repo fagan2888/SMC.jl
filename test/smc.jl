@@ -1,4 +1,4 @@
-using DSGE, ModelConstructors, HDF5, Random, JLD2, FileIO, Plots, SMC, Test
+using DSGE, ModelConstructors, HDF5, Random, JLD2, FileIO, SMC, Test
 
 path = dirname(@__FILE__)
 writing_output = false
