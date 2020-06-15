@@ -1,7 +1,7 @@
 name = "SMC"
 uuid = "c6043b28-c053-11e9-348c-19d3cb73bbb3"
 authors = ["Michael Cai <michael.cai@ny.frb.org>", "William Chen <william.chen@ny.frb.org>", "Ethan Matlin <ethan.matlin@ny.frb.org>", "Reca Sarfati <rebecca.sarfati@ny.frb.org>"]
-version = "0.1.8"
+version = "0.1.10"
 
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
@@ -38,10 +38,8 @@ StatsBase = "0.29, 0.30, 0.31, 0.32.0"
 julia = "0.7, 1.0, 1.1"
 
 [extras]
-CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 DSGE = "6cf23378-2c47-544c-b0c3-6efefe57ca11"
-InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["CSV", "DSGE", "Test", "InteractiveUtils"]
+test = ["DSGE", "Test"]
